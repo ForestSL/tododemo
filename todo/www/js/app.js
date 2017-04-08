@@ -6,22 +6,25 @@
 angular.module('starter', ['ionic'])
 
 .factory('Tasks', function($http) {
-  var base = "http://localhost:3000";
-  return {
-    all: function() {
-      return $http.get(base + "/task");
-    },
-    save: function(task) {
-      return $http.post(base + "/task", {title: task.title});
+    var base = "http://localhost:3000";
+    return {
+      all: function() {
+        return $http.get(base + "/task");
+      },
+      save: function(task) {
+        return $http.post(base + "/task", {title: task.title, checked:task.checked});
+      },
+      update: function(task) {
+        return $http.post(base + "/update", {title: task.title, checked:task.checked});
+      }
     }
-  }
-})
+  })
 
 .controller('TodoCtrl', function($scope, $ionicModal, Tasks) {
   Tasks.all()
     .success(function(tasks){
       $scope.tasks = tasks;
-      console.log($scope.tasks);
+      //console.log($scope.tasks);
     })
     .error(function(){
       $scope.tasks = [];
@@ -29,7 +32,8 @@ angular.module('starter', ['ionic'])
   // Called when the form is submitted
   $scope.createTask = function(task) {
     $scope.tasks.push({
-      title: task.title
+      title: task.title,
+      checked : false
     });
     Tasks.save(task)
       .success(function(task){
@@ -39,4 +43,19 @@ angular.module('starter', ['ionic'])
         console.log("request error");
       });
   };
+
+    $scope.taskChange = function(task) {
+
+      task.checked = !task.checked;
+
+          Tasks.update(task)
+        .success(function(task){
+          console.log(task);
+        })
+        .error(function(){
+          console.log("request error");
+        });
+    };
+
+  
 })

@@ -44,11 +44,9 @@
             <input type="text" placeholder="What do you need to do?" ng-model="task.title">
             <button type="submit" class="button button-small button-positive">Create Task</button>
           </label>
-        </form>
+        </form> 
         <ion-list>
-          <ion-item ng-repeat="task in tasks">
-            {{task.title}}
-          </ion-item>
+          <ion-checkbox ng-checked="task.checked" ng-repeat="task in tasks" ng-click="taskChange(task)" ng-class="{'checkbox-true':task.checked}"> {{ task.title }}  </ion-checkbox>
         </ion-list>
       </ion-content>
     </ion-pane>

@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/test', function(err) {
+mongoose.connect('mongodb://localhost/my', function(err) {
   if (err) {
     console.log('connection error', err);
   } else {
@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost/test', function(err) {
 var index = require('./routes/index');
 var users = require('./routes/users');
 var task = require('./routes/task');
+var update = require('./routes/update');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use(cors());
 app.use('/', index);
 app.use('/users', users);
 app.use('/task', task);
+app.use('/update',update);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
